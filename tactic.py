@@ -6,12 +6,13 @@ from sqlalchemy.ext.declarative import declarative_base
 #from sqlalchemy.orm import relationship
 #from sqlalchemy import create_engine
 from marshmallow_sqlalchemy import ModelSchema
+from marshmallow import fields
 
 Base = declarative_base()
 
 tacticCategories = Table('tactic_categories', Base.metadata,
-    Column('tactic_id', Integer, ForeignKey('tactics.tactic_id')),
-    Column('category_id', Integer, ForeignKey('categories.category_id'))
+    Column('tactic_id', Integer, ForeignKey('tactics.tactic_id'), primary_key=True),
+    Column('category_id', Integer, ForeignKey('categories.category_id'), primary_key=True)
 )
 
 class Category(Base):
@@ -37,9 +38,11 @@ class Tactic(Base):
     gene_sharp_number = Column(Integer)
     gene_sharp_sub = Column(String(5))
     categories = relationship("Category",
-                    secondary=tacticCategories,
-                    backref="parents")
+                    secondary=tacticCategories)
 
 class TacticSchema(ModelSchema):
+
+    # A list of author objects
+    categories = fields.Nested(CategorySchema, many=True)
     class Meta:
         model = Tactic

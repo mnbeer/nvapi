@@ -41,6 +41,7 @@ def categories():
 @app.route("/tactics")
 def tactics():
     allTactics = s.query(Tactic).all()
+    print(allTactics[0].categories[0].name)
     tacticSchema = TacticSchema(many=True)
     dump_data = tacticSchema.dump(allTactics)
     return jsonify(dump_data)

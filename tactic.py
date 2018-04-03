@@ -46,12 +46,13 @@ class Tactic(Base):
     links = relationship("TacticLink", back_populates="tactic")
 
 class TacticLinkSchema(ModelSchema):
-    #categories = fields.Nested(CategorySchema, many=True)
+    #TODO: ignore tactic and tactic_id
     class Meta:
         model = TacticLink
 
 class TacticSchema(ModelSchema):
     categories = fields.Nested(CategorySchema, many=True)
     links = fields.Nested(TacticLinkSchema, many=True)
+    #TODO: return links order by sort_order (no hurry; currently just 1 link per tacktic)
     class Meta:
         model = Tactic

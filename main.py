@@ -23,22 +23,19 @@ def hello():
     #return list of possible calls?
     return "nvapi"
 
-@app.route("/cat")
-def cat():
-    return category.name
-
 @app.route("/categories")
 def categories():
     #print("# of categories")
+    #TODO Order by name
     allCategories = s.query(Category).all()
     #print(len(allCategories))
     categorySchema = CategorySchema(many=True)
     dump_data = categorySchema.dump(allCategories)
     #print(dump_data)
-    return jsonify(dump_data)
+    return jsonify(dump_data[0])
 
 @app.route("/category_hierarchy")
-def categories():
+def category_hierarchy():
     return jsonify("Not Yet Implemented")
 
 #TODO: implement query string search filter arguments
@@ -48,11 +45,10 @@ def categories():
 @app.route("/tactics")
 def tactics():
     allTactics = s.query(Tactic).all()
-    print(allTactics[0].categories[0].name)
+    #print(allTactics[0].categories[0].name)
     tacticSchema = TacticSchema(many=True)
     dump_data = tacticSchema.dump(allTactics)
-    return jsonify(dump_data)
-
+    return jsonify(dump_data[0])
 
 if __name__ == "__main__":
     app.run()

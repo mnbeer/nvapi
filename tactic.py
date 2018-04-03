@@ -45,8 +45,8 @@ class Tactic(Base):
                     secondary=tacticCategories)
     links = relationship("TacticLink", back_populates="tactic")
 
-class TacticLinkSchema(ModelSchema):
-    #TODO: ignore tactic and tactic_id
+class TacticLinkSchema(ModelSchema)
+    tactic = fields.Integer(load_only=True)
     class Meta:
         model = TacticLink
 

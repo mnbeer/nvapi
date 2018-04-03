@@ -18,11 +18,10 @@ session = sessionmaker()
 session.configure(bind=engine)
 s = session()
 
-category = s.query(Category).first()
-
 @app.route("/")
 def hello():
-    return "Hello World!"
+    #return list of possible calls?
+    return "nvapi"
 
 @app.route("/cat")
 def cat():
@@ -38,6 +37,14 @@ def categories():
     #print(dump_data)
     return jsonify(dump_data)
 
+@app.route("/category_hierarchy")
+def categories():
+    return jsonify("Not Yet Implemented")
+
+#TODO: implement query string search filter arguments
+#      1) list of categories
+#      2) Whole word search (requires full-text index in db)
+#TODO: build adhoc query based on search arguments
 @app.route("/tactics")
 def tactics():
     allTactics = s.query(Tactic).all()
@@ -46,10 +53,6 @@ def tactics():
     dump_data = tacticSchema.dump(allTactics)
     return jsonify(dump_data)
 
-
-@app.route("/nv/api/v1/tactics")
-def tacticsFuture():
-    return "Hello World!"
 
 if __name__ == "__main__":
     app.run()
